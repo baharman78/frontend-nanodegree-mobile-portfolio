@@ -117,7 +117,7 @@ module.exports = function(grunt) {
           }
         },
 
-/* https://www.npmjs.com/package/grunt-processhtml-prepend */
+        /* https://www.npmjs.com/package/grunt-processhtml-prepend */
 
         processhtml: {
           dist: {
@@ -199,31 +199,77 @@ module.exports = function(grunt) {
             }
         },
 
-/* https://www.npmjs.com/package/grunt-gh-pages */
+        /* https://www.npmjs.com/package/grunt-gh-pages */
 
         'gh-pages': {
           options: {
-            base: 'dist'
+            add: false
           },
-            src: ['**']
+          dist: {
+            options: {
+              base: 'dist',
+              message: 'Generated distribution copy by grunt gh-pages'
+            },
+              src: ['**/*']
+          },
+          src: {
+            options: {
+              base: 'src',
+              message: 'Generated application copy by grunt gh-pages'
+            },
+              src: ['**/*']
           }
+        },
+
+        /* https://www.npmjs.com/package/grunt-pagespeed */
+
+        pagespeed: {
+          options: {
+            nokey: true,
+            url: "http://baharman78.github.io" // base url
+          },
+          desktop: {
+            options: {
+              paths: ["/frontend-nanodegree-mobile-portfolio/", "/frontend-nanodegree-mobile-portfolio/views/pizza.html"], // adds following extentions on base url
+              locale: "en_GB",
+              strategy: "desktop",
+              threshold: 90
+            }
+          },
+          mobile: {
+            options: {
+              paths: ["/frontend-nanodegree-mobile-portfolio/", "/frontend-nanodegree-mobile-portfolio/views/pizza.html"], // adds following extentions on base url
+              locale: "en_GB",
+              strategy: "mobile",
+              threshold: 90
+            }
+          }
+        }
+
     });
+
 // Tasks to run
 
     // default task   > grunt
     grunt.registerTask('default', ['connect:src', 'watch']);
 
-    grunt.registerTask('dev', ['gh-pages']);
+    // create gh-pages node using src directory
+    grunt.registerTask('test', ['gh-pages:src']);
+
+    // create gh-pages node using dist directory
+    grunt.registerTask('deploy', ['gh-pages:dist']);
 
     // lint js    > grunt validate-js
     grunt.registerTask('validate-js', ['jshint']);
 
-    // minify
-
+    // minify all html, css, js, and image files
     grunt.registerTask('minify', ['imagemin', 'cssmin', 'uglify', 'processhtml', 'htmlmin']);
 
-    // pageinsights used at same time as publish
-    grunt.registerTask('pageinsights', ['gh-pages']);
+    // runs pagespeed insights on specific websites using desktop configuration
+    grunt.registerTask('pageinsights', ['pagespeed:desktop']);
+
+    // runs pagespeed insights on specific websites using mobile configuration
+    grunt.registerTask('pageinsightsm', ['pagespeed:mobile']);
 
     //publish finished site to /dist directory  > grunt publish
     grunt.registerTask('publish', ['clean:dist', 'validate-js', 'copy:dist', 'minify', 'connect:dist']);
