@@ -32,3 +32,5 @@ since we have the packages.json file we don't have to manually install each plug
 ** Ready For Gruntfile.js
 
 Now that the project and directories structure is set take a look at Grunfile.js and make any necessary changes to the settings or options of each task.
+
+-- http://evilmousestudios.com/deploying-to-github-pages-with-grunt/
