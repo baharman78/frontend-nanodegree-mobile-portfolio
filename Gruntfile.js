@@ -93,7 +93,7 @@ module.exports = function(grunt) {
             files: [{
               expand: true,
               cwd: 'src/views/css',
-              src: ['*.css', '!*.min.css'],
+              src: ['*.css', '!*.min.css', '!bootstrap-grid.css'],
               dest: 'dist/views/css',
               ext: '.min.css'
             }]
@@ -149,7 +149,8 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd:'src/',
                     src: ['**/*.md',
-                          'views/images/pizzeria.jpg'
+                          'views/images/pizzeria.jpg',
+                          'views/css/bootstrap-grid.css'
                     ],
                     dest: 'dist/'
                 }]
@@ -159,10 +160,10 @@ module.exports = function(grunt) {
         // https://www.npmjs.com/package/grunt-contrib-watch
         watch: {
             livereload: {
-                files: ['app/**/*.html',
-                        'app/js/**/*.js',
-                        'app/css/**/*.css',
-                        'app/images/**/*.{jpg,gif,svg,jpeg,png}'
+                files: ['src/**/*.html',
+                        'src/js/**/*.js',
+                        'src/css/**/*.css',
+                        'src/images/**/*.{jpg,gif,svg,jpeg,png}'
                 ],
                 options: {
                     livereload: true
@@ -230,7 +231,7 @@ module.exports = function(grunt) {
           },
           desktop: {
             options: {
-              paths: ["/frontend-nanodegree-mobile-portfolio/", "/frontend-nanodegree-mobile-portfolio/views/pizza.html"], // adds following extentions on base url
+              paths: ["/frontend-nanodegree-mobile-portfolio/", "/frontend-nanodegree-mobile-portfolio/views/pizza.min.html"], // adds following extentions on base url
               locale: "en_GB",
               strategy: "desktop",
               threshold: 90
@@ -238,7 +239,7 @@ module.exports = function(grunt) {
           },
           mobile: {
             options: {
-              paths: ["/frontend-nanodegree-mobile-portfolio/", "/frontend-nanodegree-mobile-portfolio/views/pizza.html"], // adds following extentions on base url
+              paths: ["/frontend-nanodegree-mobile-portfolio/", "/frontend-nanodegree-mobile-portfolio/views/pizza.min.html"], // adds following extentions on base url
               locale: "en_GB",
               strategy: "mobile",
               threshold: 90
