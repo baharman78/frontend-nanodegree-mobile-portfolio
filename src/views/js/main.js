@@ -503,10 +503,14 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  var items = document.querySelectorAll('.mover');  // updated .mover styles to include will-change:transform to keep browser from repainting all pizzas every time they change locations
+  var scrollLocation = document.body.scrollTop;
+  var phase = [0, 0, 0, 0, 0];
+  for (var i = 0; i < 5; i++){
+    phase[i] = Math.sin((scrollLocation / 1250) + (i % 5));  // creates five different phases that can be used for location
+  }
+  for (i = 0; i < items.length; i++) {
+    items[i].style.left = items[i].basicLeft + 100 * phase[i%5] + 'px'; // updates all styles to move locations
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
