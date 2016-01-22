@@ -8,6 +8,53 @@ module.exports = function(grunt) {
     // http://gruntjs.com/configuring-tasks#grunt-configuration
     grunt.initConfig({
 
+      // https://www.npmjs.com/package/grunt-responsive-images
+      responsive_images: {
+          dev: {
+              options: {
+              /* by default uses GraphicMagick, but if you want to use ImageMagick uncomment line below */
+              // engine: 'im',
+                  sizes: [{
+                      // name: 'small',
+                      width:300
+                  },{
+                      // name: 'medium',
+                      width: 600
+                  }]
+              },
+
+              files: [{
+                  expand: true,
+                  src: ['*.{gif,jpg,png}', '!profilepic.jpg'],
+                  // placed it outside app since these will be processed and are not part of your app/website
+                  cwd: 'img_src/',
+                  dest: 'src/img/'
+              }]
+          },
+
+          devview: {
+              options: {
+              /* by default uses GraphicMagick, but if you want to use ImageMagick uncomment line below */
+              // engine: 'im',
+                  sizes: [{
+                      // name: 'small',
+                      width:300
+                  },{
+                      // name: 'medium',
+                      width: 600
+                  }]
+              },
+
+              files: [{
+                  expand: true,
+                  src: ['*.{gif,jpg,png}'],
+                  // placed it outside app since these will be processed and are not part of your app/website
+                  cwd: 'img_src/views/',
+                  dest: 'src/views/images/'
+              }]
+          }
+      },
+
         /* https://www.npmjs.com/package/grunt-contrib-jshint */
         /* http://jshint.com/docs/options/ */
         jshint: {
@@ -35,6 +82,10 @@ module.exports = function(grunt) {
 
         /* https://www.npmjs.com/package/grunt-contrib-imagemin */
         imagemin: {
+            options: {
+              progressive: true,
+              optimizationLevel: 4
+            },
             dist: {
               files: [{
                     expand: true,
@@ -47,7 +98,7 @@ module.exports = function(grunt) {
               files: [{
                 expand: true,
                 cwd: 'src/views/images/',
-                src: ['**/*.{gif,svg,jpeg,png}'],
+                src: ['**/*.{gif,svg,jpeg,png,jpg}'],
                 dest: 'dist/views/images/'
               }]
             }
@@ -138,18 +189,31 @@ module.exports = function(grunt) {
         // https://www.npmjs.com/package/grunt-contrib-clean
         clean: {
             dist: {
-                src: ['dist/']
+              src: ['dist/']
             },
+            img: {
+              src: ['src/img/']
+            },
+            imgviews: {
+              src: ['src/views/images/']
+            }
         },
 
         // https://www.npmjs.com/package/grunt-contrib-copy
         copy: {
+            img_src: {
+              files: [{
+                  expand: true,
+                  cwd:'img_src/',
+                  src: ['profilepic.jpg'],
+                  dest: 'src/img/'
+              }]
+            },
             dist: {
                 files: [{
                     expand: true,
                     cwd:'src/',
                     src: ['**/*.md',
-                          'views/images/pizzeria.jpg',
                           'views/css/bootstrap-grid.css'
                     ],
                     dest: 'dist/'
@@ -168,11 +232,6 @@ module.exports = function(grunt) {
                 options: {
                     livereload: true
                 }
-            },
-
-            responsive_images: {
-                files: ['images_src/*.{gif,jpg,png}'],
-                tasks: ['responsive-img']
             }
         },
 
@@ -250,6 +309,8 @@ module.exports = function(grunt) {
     });
 
 // Tasks to run
+    // responsive_images
+    grunt.registerTask('responsive-img', ['clean:img', 'clean:imgviews', 'copy:img_src', 'responsive_images']);
 
     // default task   > grunt
     grunt.registerTask('default', ['connect:src', 'watch']);
