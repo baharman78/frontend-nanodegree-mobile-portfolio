@@ -1,7 +1,7 @@
-### Grunt Boilerplate
+# Grunt Boilerplate
 Brent Harman
 
-# Grunt Commands
+## Grunt Commands
 
 ### `default`
 
@@ -39,7 +39,7 @@ This command runs google pageinsights on specified websites in terms of a deskto
 
 This command runs google pageinsights on specified websites in terms of a mobile device
 
-# grunt-boilerplate Setup
+## grunt-boilerplate Setup
 Initially used javasalazar's boilerplate as starting point for Gruntfile.js and package.json. [https://github.com/javsalazar/grunt-boilerplate](https://github.com/javsalazar/grunt-boilerplate)
 
 ### Initial Git Initialization
