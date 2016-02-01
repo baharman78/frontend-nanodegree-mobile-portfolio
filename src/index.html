@@ -3,12 +3,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content=" FILL ME IN ">
-    <meta name="author" content=" FILL ME IN ">
+    <meta name="description" content="Optimization of Cameron Pittman's Portfolio">
+    <meta name="author" content="Brent Harman">
     <title>Cameron Pittman: Portfolio</title>
 
     <!-- Hmm, what is the impact of web fonts on speed? Measure it... -->
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <!-- <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"> -->
+
+    <script async src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js">
+      WebFontConfig = {
+        timeout: 2000 // Set the timeout to two seconds
+      };
+
+      var WebFont = require('webfontloader');
+
+      WebFont.load({
+        google: {
+          families: ['Open Sans Condensed: 400,700']
+        }
+      });
+    </script>
 
 <!-- build:css css/style.min.css -->
     <link href="css/style.css" rel="stylesheet">
@@ -17,19 +31,10 @@
     <link href="css/print.css" rel="stylesheet">
 <!-- /build -->
 
-    <script>
-      (function(w,g){w['GoogleAnalyticsObject']=g;
-      w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
-
-      // TODO: replace with your Google Analytics profile ID.
-      ga('create', 'UA-XXXX-Y');
-      ga('send', 'pageview');
-    </script>
     <script async src="http://www.google-analytics.com/analytics.js"></script>
 <!-- build:js js/perfmatters.min.js -->
-    <script async src="js/perfmatters.js"></script>
+    <script src="js/perfmatters.js"></script>
 <!-- /build -->
-
   </head>
 
   <body>
@@ -82,5 +87,13 @@
     <footer>
       <p>&copy; Web Performance 2014 <span id="crp-stats"></span></p>
     </footer>
+    <script>
+      (function(w,g){w['GoogleAnalyticsObject']=g;
+      w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
+
+      // TODO: replace with your Google Analytics profile ID.
+      ga('create', 'UA-XXXX-Y');
+      ga('send', 'pageview');
+    </script>
   </body>
 </html>

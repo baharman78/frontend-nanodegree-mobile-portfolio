@@ -3,9 +3,12 @@
 
 function logCRP() {
   var t = window.performance.timing,
-    dcl = t.domContentLoadedEventStart - t.domLoading,
-    complete = t.domComplete - t.domLoading;
-  var stats = document.getElementById("crp-stats");
+    domLoading = t.domLoading,
+    domComplete = t.domComplete,
+    LoadedEventStart = t.domContentLoadedEventStart,
+    stats = document.getElementById("crp-stats");
+  var dcl = LoadedEventStart - domLoading;
+  var complete = domComplete - domLoading;
   stats.textContent = 'DCL: ' + dcl + 'ms, onload: ' + complete + 'ms';
 }
 
