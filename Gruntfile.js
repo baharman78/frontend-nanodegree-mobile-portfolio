@@ -63,6 +63,8 @@ module.exports = function(grunt) {
                 eqeqeq: true,
                 eqnull: true,
                 browser: true,
+                '-W097' : false,
+                devel: true,
                 globals: {
                     jQuery: true
                 },

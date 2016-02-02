@@ -18,6 +18,13 @@ cameron *at* udacity *dot* com
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
+/*
+  Optimizations:
+    replaced all querySelector() with getElementById()
+    replaced all querySelectorAll() with getEntriesByName()
+    These two functions are more efficient than the querySelector ones
+*/
+"use strict";
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
   "Pepperoni",
@@ -406,13 +413,13 @@ var resizePizzas = function(size) {
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        document.getElementById("pizzaSize").innerHTML = "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        document.getElementById("pizzaSize").innerHTML = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        document.getElementById("pizzaSize").innerHTML = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -424,7 +431,7 @@ var resizePizzas = function(size) {
    // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+    var windowWidth = document.getElementById("randomPizzas").offsetWidth;
     var oldSize = oldWidth / windowWidth;
 
     // TODO: change to 3 sizes? no more xl?
@@ -448,12 +455,18 @@ var resizePizzas = function(size) {
     return dx;
   }
 
-  // Iterates through pizza elements on the page and changes their widths
+  /* Function: Iterates through pizza elements on the page and changes their widths
+      Input: size
+  Optimizations:
+  Removed jQuery statement outside of for loop
+  Used dx and newwidth for first pizza to set widths on all pizzas
+  Set a variable used for length in for loop
+  */
   function changePizzaSizes(size) {
-    var randomPizzas = document.querySelectorAll(".randomPizzaContainer"); // create object that contains all selectors with .randomPizzaContainer
+    var randomPizzas = document.getElementsByClassName("randomPizzaContainer"); // create object that contains all selectors with .randomPizzaContainer
     var dx = determineDx(randomPizzas[0], size);  // Changed code to use randomPizzas object instead of calling jQuery multiple times
     var newwidth = (randomPizzas[0].offsetWidth + dx) + 'px';
-    for (var i = 0; i < randomPizzas.length; i++) {
+    for (var i = 0, len = randomPizzas.length; i < len; i++) {
       randomPizzas[i].style.width = newwidth;  // Removed forced synchonous layout by using style write commands after using all style read commands
     }
   }
@@ -499,18 +512,22 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
+/* Optimizations:
+    Create five different phases that can be use depending on what the item is
+    updated .mover style to include will-change: transform to keep pizzas from being painted every time scollbar is used
+*/
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');  // updated .mover styles to include will-change:transform to keep browser from repainting all pizzas every time they change locations
+  var items = document.getElementsByClassName('mover');
   var scrollLocation = document.body.scrollTop;
   var phase = [0, 0, 0, 0, 0];
-  for (var i = 0; i < 5; i++){
-    phase[i] = Math.sin((scrollLocation / 1250) + (i % 5));  // creates five different phases that can be used for location
+  for (var i = 0, len = 5; i < len; i++){
+    phase[i] = Math.sin((scrollLocation / 1250) + (i % 5));
   }
-  for (i = 0; i < items.length; i++) {
-    items[i].style.left = items[i].basicLeft + 100 * phase[i%5] + 'px'; // updates all styles to move locations
+  for (i = 0, len = items.length; i < len; i++) {
+    items[i].style.left = items[i].basicLeft + 100 * phase[i%5] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -527,18 +544,23 @@ function updatePositions() {
 window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
+/* Optimizations:
+    Decreased the number of pizzas from 200 to 36
+*/
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
-    var elem = document.createElement('img');
+  var elem;
+  var movingPizzas = document.getElementById("movingPizzas1");
+  for (var i = 0; i < 36; i++) {
+    elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza-300.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });
