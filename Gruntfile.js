@@ -16,7 +16,7 @@ module.exports = function(grunt) {
               // engine: 'im',
                   sizes: [{
                       // name: 'small',
-                      width:300
+                      width: 300
                   },{
                       // name: 'medium',
                       width: 600
@@ -40,14 +40,14 @@ module.exports = function(grunt) {
                       // name: 'small',
                       width:300
                   },{
-                      // name: 'medium',
-                      width: 600
+                      // name: 'large',
+                      width: 800
                   }]
               },
 
               files: [{
                   expand: true,
-                  src: ['*.{gif,jpg,png}'],
+                  src: ['*.{gif,jpg,png}', '!pizzeria-300-min.jpg'],
                   // placed it outside app since these will be processed and are not part of your app/website
                   cwd: 'img_src/views/',
                   dest: 'src/views/images/'
@@ -100,7 +100,7 @@ module.exports = function(grunt) {
               files: [{
                 expand: true,
                 cwd: 'src/views/images/',
-                src: ['**/*.{gif,svg,jpeg,png,jpg}'],
+                src: ['**/*.{jpg,gif,svg,jpeg,png}', '!**/pizzeria-300.jpg'],
                 dest: 'dist/views/images/'
               }]
             }
@@ -212,14 +212,23 @@ module.exports = function(grunt) {
               }]
             },
             dist: {
-                files: [{
-                    expand: true,
-                    cwd:'src/',
-                    src: ['**/*.md',
-                          'views/css/bootstrap-grid.css'
-                    ],
-                    dest: 'dist/'
-                }]
+              files: [{
+                  expand: true,
+                  cwd:'src/',
+                  src: ['**/*.md',
+                    'views/css/bootstrap-grid.css'
+                  ],
+                  dest: 'dist/'
+              }]
+            },
+            jpg: {
+              files: [{
+                expand: true,
+                cwd: 'img_src/views/',
+                src: [ 'pizzeria-300-min.jpg' //used compression tool online
+              ],
+                dest: 'src/views/images/'
+              }]
             }
         },
 
@@ -306,13 +315,27 @@ module.exports = function(grunt) {
               threshold: 90
             }
           }
+        },
+
+        critical: {
+          test: {
+            options: {
+              base: './',
+              css: [
+                'src/css/style.css'
+              ],
+              extract: true
+            },
+            src: 'src/index.html',
+            dest: 'src/generated/index-critical.html'
+          }
         }
 
     });
 
 // Tasks to run
     // responsive_images
-    grunt.registerTask('responsive-img', ['clean:img', 'clean:imgviews', 'copy:img_src', 'responsive_images']);
+    grunt.registerTask('responsive-img', ['clean:img', 'clean:imgviews', 'copy:img_src', 'copy:jpg', 'responsive_images']);
 
     // default task   > grunt
     grunt.registerTask('default', ['connect:src', 'watch']);

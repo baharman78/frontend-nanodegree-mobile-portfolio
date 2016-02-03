@@ -3,6 +3,10 @@ Brent Harman
 
 ## Grunt Commands
 
+### `responsive-img`
+
+This command will clean src/img folder and views/images folder.  Then it will create necessary images for src folders.
+
 ### `default`
 
 This command will run project files within src folder on local host
@@ -69,3 +73,21 @@ since we have the packages.json file we don't have to manually install each plug
 ** Ready For Gruntfile.js
 
 Now that the project and directories structure is set take a look at Grunfile.js and make any necessary changes to the settings or options of each task.
+
+## Optimizations for views/js/main.js
+
+|Line Numbers|Optimization|Reasoning|
+|-------|------------|-----------|
+|Global|replaced all querySelector() with getElementById()|getElementById() is less costly to call than querySelector()|
+|Global|replaced all querySelectorAll() with getEntriesByName()|getEntriesByName() is less costly to call than querySelectorAll()|
+|Global|Set length to an object, and used that to compare every time the for loop would iterate|Avoids checking length every time loop iterates|
+|466|Removed jQuery statement outside of for loop|jQuery is expensive to call, so it needs to be saved in an object.  This object is then used in the for loop.|
+|467-468|Used dx and newwidth for first pizza to set widths on all pizzas| All pizzas are same size, so there is no use checking every single pizza width.|
+|526-528|Created array with the 5 different phases that could be used to calculate pizza position|Avoids calculating phase every time loop iterates|
+|555|Decreased the number of pizzas from 200 to 36| This majorly decreases the amount of pizzas that are needed for painting.  There is no use in painting pizzas that you will never see in the browser.|
+
+## Optimizations for views/css/style.css
+
+|Line Numbers|Optimization|Reasoning|
+|-------|------------|-----------|
+|33-34|These statements were used to move pizzas to a different layer.| I did this so that the pizzas are not painted every time the browser scrolls.|
