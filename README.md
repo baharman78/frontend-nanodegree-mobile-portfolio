@@ -25,7 +25,7 @@ This command runs jslint on files in src folder
 
 ### `publish`
 
-This command runs minified versions of code on localhost
+This command gives css files necessary vendor prefixes, and then runs minified versions of code on localhost
 
 ### `test`
 
@@ -73,6 +73,12 @@ since we have the packages.json file we don't have to manually install each plug
 ** Ready For Gruntfile.js
 
 Now that the project and directories structure is set take a look at Grunfile.js and make any necessary changes to the settings or options of each task.
+
+### Special considerations
+
+All jpgs must be run through online tool on the web.  grunt-contrib-imagemin will not compress jpgs
+
+index.html inlines style.css, and print.css.  I don't like how the automated tools leave the styles in the original css file when they copy them to the html file.  Therefore, `style.css and print.css must be copied with they're vendor prefixes into the src/index.html where they are inlined if the vendor prefixes change`
 
 ## Optimizations for views/js/main.js
 

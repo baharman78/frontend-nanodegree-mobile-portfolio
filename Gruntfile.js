@@ -136,7 +136,7 @@ module.exports = function(grunt) {
           dist: {
             files: [{
               expand: true,
-              cwd: 'src/css',
+              cwd: 'dist/css',
               src: ['*.css', '!*.min.css'],
               dest: 'dist/css',
               ext: '.min.css'
@@ -145,7 +145,7 @@ module.exports = function(grunt) {
           distview: {
             files: [{
               expand: true,
-              cwd: 'src/views/css',
+              cwd: 'dist/views/css',
               src: ['*.css', '!*.min.css', '!bootstrap-grid.css'],
               dest: 'dist/views/css',
               ext: '.min.css'
@@ -186,6 +186,31 @@ module.exports = function(grunt) {
                 'dist/views/pizza.min.html': 'src/views/pizza.html'
             }
           }
+        },
+
+        /* https://www.npmjs.com/package/grunt-autoprefixer */
+
+        autoprefixer: {
+        options: {
+          browsers: ['last 2 versions'],
+          remove: true,
+        },
+        dist: {
+          files: [{
+            expand: true,
+            cwd: 'src/css',
+            src: ['*.css', '!*.min.css'],
+            dest: 'dist/css'
+          }]
+        },
+        distview: {
+          files: [{
+            expand: true,
+            cwd: 'src/views/css',
+            src: ['*.css', '!bootstrap-grid.css'],
+            dest: 'dist/views/css'
+          }]
+        }
         },
 
         // https://www.npmjs.com/package/grunt-contrib-clean
@@ -315,20 +340,6 @@ module.exports = function(grunt) {
               threshold: 90
             }
           }
-        },
-
-        critical: {
-          test: {
-            options: {
-              base: './',
-              css: [
-                'src/css/style.css'
-              ],
-              extract: true
-            },
-            src: 'src/index.html',
-            dest: 'src/generated/index-critical.html'
-          }
         }
 
     });
@@ -359,6 +370,6 @@ module.exports = function(grunt) {
     grunt.registerTask('pageinsightsm', ['pagespeed:mobile']);
 
     //publish finished site to /dist directory  > grunt publish
-    grunt.registerTask('publish', ['clean:dist', 'validate-js', 'copy:dist', 'minify', 'connect:dist']);
+    grunt.registerTask('publish', ['clean:dist', 'validate-js', 'copy:dist', 'autoprefixer', 'minify', 'connect:dist']);
 
 };
